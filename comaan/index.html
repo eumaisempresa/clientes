@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU⁺ Missão · Painel Comaan</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0E1A0E;--bg2:#142014;--bg3:#1A2A1A;--bg4:#203020;
+  --green:#7AAD66;--green2:#A8CC94;
+  --text:#F0F5EE;--muted:#8AAE80;
+  --border:rgba(122,173,102,0.18);--border2:rgba(122,173,102,0.08);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(14,26,14,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-eu{font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-weight:300;color:var(--muted);text-decoration:none;letter-spacing:0.04em;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-eu:hover{color:var(--green)}
+.nav-eu span{color:var(--green);font-weight:600}
+.nav-cliente{display:flex;align-items:center;gap:10px}
+.nav-cliente img{width:30px;height:30px;object-fit:contain;border-radius:3px;border:1px solid var(--border)}
+.nav-cliente-nome{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--text);letter-spacing:0.04em}
+
+/* HERO */
+.hero{padding:52px 32px 40px;border-bottom:1px solid var(--border2);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-120px;width:400px;height:400px;background:radial-gradient(circle,rgba(122,173,102,0.1) 0%,transparent 65%);pointer-events:none}
+.hero-eyebrow{font-size:0.65rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';width:18px;height:1px;background:var(--green)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;color:var(--text);line-height:1.15;margin-bottom:10px}
+.hero p{font-size:0.88rem;font-weight:300;color:var(--muted);line-height:1.7;max-width:560px}
+
+/* SEÇÕES */
+.sec{padding:40px 32px;position:relative;z-index:1}
+.sec+.sec{border-top:1px solid var(--border2)}
+.sec-label{font-size:0.64rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.sec-label::before{content:'';width:16px;height:1px;background:var(--green)}
+.sec-sub{font-size:0.78rem;font-weight:300;color:var(--muted);line-height:1.6;margin-bottom:24px;max-width:480px}
+
+/* GRID DE CARDS */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+
+/* CARD ATIVO */
+.tool-card{border:1px solid var(--border2);border-radius:3px;background:var(--bg2);overflow:hidden;transition:border-color 0.25s,transform 0.2s;text-decoration:none;display:block;position:relative}
+.tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);opacity:0;transition:opacity 0.3s}
+.tool-card:hover{border-color:rgba(122,173,102,0.4);transform:translateY(-2px)}
+.tool-card:hover::before{opacity:1}
+.tc-inner{padding:22px 20px}
+.tc-tag{font-size:0.58rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.tc-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--text);margin-bottom:7px;line-height:1.2}
+.tc-desc{font-size:0.8rem;font-weight:300;color:var(--muted);line-height:1.65;margin-bottom:16px}
+.tc-action{display:inline-flex;align-items:center;gap:6px;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);transition:gap 0.2s}
+.tool-card:hover .tc-action{gap:10px}
+
+/* CARD EM DESENVOLVIMENTO */
+.tool-card.dev{cursor:default;opacity:0.65}
+.tool-card.dev:hover{transform:none;border-color:var(--border2)}
+.tool-card.dev::before{background:linear-gradient(90deg,rgba(122,143,163,0.35),transparent)}
+.tool-card.dev:hover::before{opacity:0.5}
+.dev-badge{display:inline-flex;align-items:center;gap:5px;font-size:0.58rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);background:rgba(122,143,163,0.08);border:1px solid rgba(122,143,163,0.2);padding:3px 8px;border-radius:2px;margin-bottom:8px}
+.dev-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--muted);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.tc-action-dev{display:inline-flex;align-items:center;gap:6px;font-size:0.72rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+
+/* ROADMAP */
+.future-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.future-card{border:1px solid rgba(122,173,102,0.05);border-radius:3px;background:rgba(20,32,20,0.4);padding:18px 16px;opacity:0.4}
+.future-tag{font-size:0.56rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.future-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--text);margin-bottom:4px}
+.future-desc{font-size:0.75rem;font-weight:300;color:var(--muted);line-height:1.55}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border2);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--bg2);position:relative;z-index:1}
+footer::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.footer-eu{font-size:0.72rem;font-weight:300;color:rgba(138,174,128,0.35);letter-spacing:0.05em}
+.footer-eu span{color:rgba(122,173,102,0.5);font-weight:500}
+.footer-tag{font-family:'Cormorant Garamond',serif;font-size:0.82rem;font-weight:300;font-style:italic;color:rgba(122,173,102,0.3)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1),transform 0.6s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:0.07s}.rd2{transition-delay:0.14s}.rd3{transition-delay:0.21s}
+.rd4{transition-delay:0.28s}.rd5{transition-delay:0.35s}
+
+@media(max-width:640px){
+  nav{padding:14px 18px}
+  .nav-cliente-nome{font-size:0.92rem}
+  .hero{padding:36px 18px 28px}
+  .sec{padding:28px 18px}
+  footer{padding:20px 18px;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://eumaisempresa.github.io/eumaismissao/" class="nav-eu">
+    EU<sup style="font-size:0.6em;vertical-align:super">+</sup> <span>Missão</span>
+  </a>
+  <div class="nav-cliente">
+    <img src="https://eumaisempresa.github.io/missaocomaan/image_7b033a.png"
+         onerror="this.style.display='none'" alt="Logo Comaan">
+    <span class="nav-cliente-nome">COMAAN</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow reveal">Painel do Cliente</div>
+  <h1 class="reveal rd1">Bem-vindo ao seu espaço,<br>Comunidade Comaan.</h1>
+  <p class="reveal rd2">Aqui estão todas as entregas e ferramentas da sua parceria com EU⁺ Missão. Acesse o que já está disponível e acompanhe o que está sendo construído para você.</p>
+</div>
+
+<!-- ENTREGAS ATIVAS -->
+<section class="sec">
+  <div class="sec-label reveal">Disponível agora</div>
+  <p class="sec-sub reveal rd1">Três entregas já ativas e prontas para uso.</p>
+  <div class="tools-grid">
+
+    <a href="https://eumaisempresa.github.io/missaocomaan/index.html"
+       target="_blank" class="tool-card reveal rd1">
+      <div class="tc-inner">
+        <div class="tc-tag">Presença Digital</div>
+        <div class="tc-name">Site Institucional</div>
+        <div class="tc-desc">Página pública da Comunidade Comaan com contato via WhatsApp, cultos ao vivo, oferta e redes sociais.</div>
+        <span class="tc-action">Acessar →</span>
+      </div>
+    </a>
+
+    <a href="https://eumaisempresa.github.io/missaocomaan/sacerdocioreal/index.html"
+       target="_blank" class="tool-card reveal rd2">
+      <div class="tc-inner">
+        <div class="tc-tag">Escola · Formação</div>
+        <div class="tc-name">Escola Sacerdócio Real</div>
+        <div class="tc-desc">Landing page da escola com formulário de cadastro de alunos ativo. Divulgação e captura de interessados.</div>
+        <span class="tc-action">Acessar →</span>
+      </div>
+    </a>
+
+    <a href="https://eumaisempresa.github.io/missaocomaan/escoladeester/index.html"
+       target="_blank" class="tool-card reveal rd3">
+      <div class="tc-inner">
+        <div class="tc-tag">Escola · Formação</div>
+        <div class="tc-name">Escola de Ester</div>
+        <div class="tc-desc">Landing page da escola com formulário de cadastro de alunas ativo. Divulgação e captura de interessadas.</div>
+        <span class="tc-action">Acessar →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FERRAMENTAS EM DESENVOLVIMENTO -->
+<section class="sec">
+  <div class="sec-label reveal">Ferramentas · Em desenvolvimento</div>
+  <p class="sec-sub reveal rd1">Oito ferramentas sendo construídas especialmente para a realidade da sua comunidade.</p>
+  <div class="tools-grid">
+
+    <div class="tool-card dev reveal rd1">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Comunidade</div>
+        <div class="tc-name">Conexão com a Família</div>
+        <div class="tc-desc">Cadastro acolhedor dos membros, histórico de participação, datas especiais e acompanhamento pastoral.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+    <div class="tool-card dev reveal rd2">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Escolas · Gestão</div>
+        <div class="tc-name">Portal das Escolas</div>
+        <div class="tc-desc">Painel unificado para matrículas, frequência, turmas e progresso dos alunos das escolas da comunidade.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+    <div class="tool-card dev reveal rd3">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Finanças</div>
+        <div class="tc-name">Transparência das Ofertas</div>
+        <div class="tc-desc">Registro e prestação de contas das entradas financeiras para a liderança e mantenedores.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+    <div class="tool-card dev reveal rd1">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Voluntários</div>
+        <div class="tc-name">Equipe em Missão</div>
+        <div class="tc-desc">Gestão de voluntários, escalas de serviço e reconhecimento dos dons de cada membro.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+    <div class="tool-card dev reveal rd2">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Comunicação</div>
+        <div class="tc-name">Mural da Comunidade</div>
+        <div class="tc-desc">Avisos, eventos e comunicados da liderança para os membros — organizado e sem ruído.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+    <div class="tool-card dev reveal rd3">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Doações</div>
+        <div class="tc-name">Generosidade Inteligente</div>
+        <div class="tc-desc">Gestão de contribuições recorrentes e relacionamento com mantenedores e parceiros da missão.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+    <div class="tool-card dev reveal rd1">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Conteúdo</div>
+        <div class="tc-name">Biblioteca de Ensinamentos</div>
+        <div class="tc-desc">Organização de sermões, estudos e materiais de formação para acesso dos membros.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+    <div class="tool-card dev reveal rd2">
+      <div class="tc-inner">
+        <div class="dev-badge">Em desenvolvimento</div>
+        <div class="tc-tag">Crescimento</div>
+        <div class="tc-name">Mapa de Expansão</div>
+        <div class="tc-desc">Acompanhamento das metas de alcance e crescimento da comunidade ao longo do tempo.</div>
+        <span class="tc-action-dev">Em breve →</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-eu">Uma entrega <span>EU⁺ Missão</span> · eumaisempresa@gmail.com · (27) 99813-1806</span>
+  <span class="footer-tag">Tecnologia a serviço de quem serve.</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+setTimeout(() => document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible')), 60);
+</script>
+</body>
+</html>
